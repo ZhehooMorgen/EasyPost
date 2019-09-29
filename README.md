@@ -2,4 +2,4 @@
 **A simple blog tool**
 
 ## Description
-Great!
+Great! Start coding.
