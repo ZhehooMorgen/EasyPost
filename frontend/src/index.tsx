@@ -8,7 +8,8 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 initializeIcons()
 
 import App from './containers/App';
-import Welcome from './containers/Welcome'
+import WelcomePage from './containers/WelcomePage'
+import PersonalPage from './containers/PersonalPage'
 
 // Inject some global styles
 mergeStyles({
@@ -37,7 +38,8 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRedirect to="welcome"/>
-        <Route path="welcome" component={Welcome} />
+        <Route path="welcome" component={WelcomePage} />
+        <Route path="personal" component={PersonalPage} />
       </Route>
     </Router>
   </Provider>
