@@ -14,6 +14,8 @@ func Start() error {
 }
 
 func serve(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin","*")
+	w.Header().Set("Access-Control-Allow-Credentials","true")
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
