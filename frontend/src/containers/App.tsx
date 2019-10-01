@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from 'react'
 
-
-class App extends Component {
-    render() {
-        console.log(this.props.children)
+class App extends Component{
+    render(){
         return (
             <div>
-                <h1>Title</h1>
+                <h1>head</h1>
                 {this.props.children}
-                <h2>Footer</h2>
+                <h2>foot</h2>
             </div>
         )
     }
