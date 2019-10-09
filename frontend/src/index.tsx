@@ -1,47 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { mergeStyles } from 'office-ui-fabric-react';
-import { Router, Route, IndexRedirect, hashHistory as history } from 'react-router';
-import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
-initializeIcons()
+import Print from './lib/print'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './Pages/App'
 
-import App from './containers/App';
-import WelcomePage from './containers/WelcomePage'
-import PersonalPage from './containers/PersonalPage'
-
-// Inject some global styles
-mergeStyles({
-  selectors: {
-    ':global(body), :global(html), :global(#app)': {
-      margin: 0,
-      padding: 0,
-      height: '100vh'
-    }
-  }
-});
-
-import reducers from './reducers'
-
-let store = createStore(reducers);
-setInterval(() => {
-  store.dispatch({
-    type: "add",
-    num: 4,
-  })
-}, 1000);
-
+let str : string = "success"
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRedirect to="welcome"/>
-        <Route path="welcome" component={WelcomePage} />
-        <Route path="personal" component={PersonalPage} />
-      </Route>
-    </Router>
-  </Provider>
-  , document.getElementById('app'));
-
+    <div>{Print(str)} <App/></div>,
+    document.getElementById('root')
+)
