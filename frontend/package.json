@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
+    "office-ui-fabric-react": "^7.47.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },
@@ -21,6 +22,8 @@
     "@babel/preset-react": "^7.6.3",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0",
     "ts-loader": "^6.2.0",
     "typescript": "^3.6.3",
     "webpack": "^4.41.0",

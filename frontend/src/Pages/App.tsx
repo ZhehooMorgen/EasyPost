@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {PrimaryButton, Label} from 'office-ui-fabric-react'
+import './App.css'
 
 let time: number = 0
 
@@ -17,8 +19,10 @@ class App extends Component {
     render(): JSX.Element {
         return (
             <div>
-                <h1>this is a ts react page!</h1>
+                <h1 className='red'>this is a ts react page!</h1>
                 <h2>run for {time} seconds</h2>
+                <PrimaryButton className='red'>哈！</PrimaryButton>
+                <Label>fsfsf</Label>
             </div>
         )
     }

@@ -17,7 +17,8 @@ module.exports = {
         ])
     ],
     devServer: {
-        contentBase: './dist'
+        contentBase: './dist',
+        port:4000,
     },
     devtool: 'inline-source-map',
     module: {
@@ -31,6 +32,14 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
             }
         ]
     },
