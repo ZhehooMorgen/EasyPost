@@ -1,4 +1,4 @@
-function Print(data){
+function Print(data : string):string{
     data = "hahaha: "+data
 
     console.log(data)
