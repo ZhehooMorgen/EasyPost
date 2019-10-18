@@ -4,7 +4,7 @@
   "description": "frontend of easypost",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --env.prod",
     "start": "webpack-dev-server --open",
     "clean": "powershell rm -R -Force build",
     "reset": "powershell rm -R -Force node_modules"
