@@ -1,0 +1,34 @@
+.AppBar{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(88, 168, 182);
+    height: 50px;
+    font-weight:400;
+    font-size: larger;
+}
+
+.AppBar>*{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.MenuButton{
+    background-color: white;
+    transition: background-color 0.5s;
+}
+
+.MenuButton:hover{
+    background-color: grey;
+}
+
+.Title{
+    margin-left: 20px;
+    flex:1;
+}
+
+.SearchBox{
+    background-color: inherit;
+    width: 300;
+}

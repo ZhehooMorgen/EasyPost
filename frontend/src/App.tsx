@@ -1,6 +1,5 @@
 import React, { Component} from 'react'
-import {PrimaryButton, Label, imgProperties} from 'office-ui-fabric-react'
-import AppHeaderBar from '../components/AppHeaderBar'
+import AppBar from './components/AppBar'
 
 
 interface IProps{
@@ -24,7 +23,7 @@ class App extends Component<IProps,IState> {
         
         return (
             <div>
-                <AppHeaderBar/>
+                <AppBar/>
                 <h1 className='red'>this is a ts react page!</h1>
                 <h2>this.state.second={this.state.second}</h2>
             </div>
