@@ -1,4 +1,4 @@
-package userinfo
+package userInfo
 
 import (
 	"backend/util"

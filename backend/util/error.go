@@ -1,6 +1,6 @@
 package util
 
-type Error interface {
+type Err interface {
 	error
 	ErrorCode() int
 }
@@ -10,7 +10,7 @@ type BasicError struct {
 	errorCode int
 }
 
-func NewBasicError(error string, errorCode int) Error{
+func NewBasicError(error string, errorCode int) Err {
 	return &BasicError{error , errorCode}
 }
 

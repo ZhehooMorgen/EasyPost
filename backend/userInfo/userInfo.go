@@ -1,4 +1,4 @@
-package userinfo
+package userInfo
 
 import (
 	"backend/routers"
@@ -11,7 +11,7 @@ import (
 )
 
 // Start :
-// Start userinfo service
+// Start userInfo service
 func Start() error {
 	http.HandleFunc(routers.Userinfo, serve)
 	return nil
@@ -22,7 +22,7 @@ func serve(w http.ResponseWriter, req *http.Request) {
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
-			fmt.Println("Error code:", errorCode)
+			fmt.Println("Err code:", errorCode)
 			w.WriteHeader(errorCode)
 		} else {
 			fmt.Println("Success")

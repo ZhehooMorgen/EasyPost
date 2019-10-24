@@ -1,4 +1,4 @@
-package articleprovider
+package articleProvider
 
 import (
 	"backend/routers"
@@ -19,7 +19,7 @@ func serve(w http.ResponseWriter, req *http.Request) {
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
-			fmt.Println("Error code:", errorCode)
+			fmt.Println("Err code:", errorCode)
 			w.WriteHeader(errorCode)
 		} else {
 			fmt.Println("Success")
@@ -33,7 +33,7 @@ func serve(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte(str))
 }
 
-func getArticle(arg interface{}) (string, util.Error) {
+func getArticle(arg interface{}) (string, util.Err) {
 	if arg == nil {
 		return "", NewInvalidArticleError(arg)
 	}
