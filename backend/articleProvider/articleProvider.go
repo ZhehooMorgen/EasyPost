@@ -9,7 +9,7 @@ import (
 
 // Start :
 //	Start the articleProvider module
-func Start() error {
+func Start() util.Err {
 	http.HandleFunc(routers.ArticleProvider, serve)
 	return nil
 }

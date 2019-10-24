@@ -1,4 +1,4 @@
-package userInfo
+package communityAction
 
 import (
 	"backend/util"

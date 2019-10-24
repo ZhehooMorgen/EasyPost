@@ -1,7 +1,6 @@
-package userInfo
+package communityAction
 
 import (
-	"backend/routers"
 	"backend/util"
 	"encoding/json"
 	"fmt"
@@ -10,14 +9,9 @@ import (
 	"strconv"
 )
 
-// Start :
-// Start userInfo service
-func Start() error {
-	http.HandleFunc(routers.Userinfo, serve)
-	return nil
-}
 
-func serve(w http.ResponseWriter, req *http.Request) {
+
+func userInfoService(w http.ResponseWriter, req *http.Request) {
 	util.CORS(w)
 	var errorCode = 200
 	defer func() {
@@ -66,13 +60,13 @@ func serve(w http.ResponseWriter, req *http.Request) {
 }
 
 // get info of a user as much as the auth allows
-func getUserInfo(auth util.Auth, id util.UserID) (*util.UserInfo, error) {
+func getUserInfo(auth util.Auth, id util.UserID) (*UserInfo, error) {
 	var role = getRole(auth, id)
 	info, err := getAllInfo(id)
 	if err != nil {
 		return nil, err
 	}
-	var ret util.UserInfo
+	var ret UserInfo
 	ret.ID = info.ID
 	ret.Name = info.Name
 	if role == util.Friend {
@@ -82,11 +76,11 @@ func getUserInfo(auth util.Auth, id util.UserID) (*util.UserInfo, error) {
 }
 
 // get All info for later use
-func getAllInfo(id util.UserID) (*util.UserInfo, error) {
+func getAllInfo(id util.UserID) (*UserInfo, error) {
 	if id == 0 {
 		return nil, ErrUserNotFound
 	}
-	return &util.UserInfo{
+	return &UserInfo{
 		ID:    id,
 		Name:  "小明",
 		Phone: "2342424fsfgg",
@@ -99,4 +93,16 @@ func getRole(auth util.Auth, targetUserID util.UserID) util.Role {
 		return util.Friend
 	}
 	return util.Nobody
+}
+
+//UserInfo : the data structure to describe user
+type UserInfo struct {
+	//ID : the unique uint64 integer to identify user
+	ID util.UserID `json:"id"`
+	//Name : the users display name, can be changed frequently
+	Name string `json:"userName"`
+	//password : should never get accessible
+	password string
+	//Phone ：phone number or other contact method of a user, can not leak
+	Phone string `json:"phone"`
 }

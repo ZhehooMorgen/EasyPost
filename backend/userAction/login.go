@@ -1,7 +1,6 @@
-package login
+package userAction
 
 import (
-	"backend/routers"
 	"backend/util"
 	"encoding/json"
 	"fmt"
@@ -9,14 +8,7 @@ import (
 	"net/http"
 )
 
-// Start :
-//	Start the articleProvider module
-func Start() error {
-	http.HandleFunc(routers.Login, serve)
-	return nil
-}
-
-func serve(w http.ResponseWriter, req *http.Request) {
+func LoginService(w http.ResponseWriter, req *http.Request) {
 	util.CORS(w)
 	var errorCode = 200
 	defer func() {
