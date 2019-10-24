@@ -2,6 +2,7 @@ package articleprovider
 
 import (
 	"backend/routers"
+	"backend/util"
 	"fmt"
 	"net/http"
 )
@@ -14,8 +15,7 @@ func Start() error {
 }
 
 func serve(w http.ResponseWriter, req *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin","*")
-	w.Header().Set("Access-Control-Allow-Credentials","true")
+	util.CORS(w)
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
@@ -28,15 +28,14 @@ func serve(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("New request :", req.Method, req.Host, req.RequestURI)
 	str, err := getArticle(struct{}{})
 	if err != nil {
-		errorCode = 502
+		errorCode = err.ErrorCode()
 	}
 	w.Write([]byte(str))
 }
 
-func getArticle(arg interface{}) (string, error) {
+func getArticle(arg interface{}) (string, util.Error) {
 	if arg == nil {
-		return "", nil
+		return "", NewInvalidArticleError(arg)
 	}
 	return "#Title \n**article**\n", nil
-
 }
