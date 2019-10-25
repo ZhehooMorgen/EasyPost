@@ -37,8 +37,10 @@ func LoginService(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	fmt.Printf("%+v\n",loginData)
-	w.Write([]byte(`odh3fiic45t5x`))
-	return
+	var credential =`odh3fiic45t5x`
+	if _, httpErr := w.Write([]byte(credential)); httpErr != nil {
+		panic(util.HTTPWriteFail(httpErr))
+	}
 }
 
 type loginData struct {

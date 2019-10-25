@@ -8,7 +8,7 @@ type InvalidArticleError struct {
 }
 
 func NewInvalidArticleError(para interface{}) util.Err {
-	err:=InvalidArticleError{util.NewBasicError("cannot find the article", 404), para}
+	err:=InvalidArticleError{util.NewBasicError("cannot find the article", 404,nil), para,}
 	err.Error()
 	return err
 }

@@ -56,7 +56,9 @@ func userInfoService(w http.ResponseWriter, req *http.Request) {
 		errorCode = 500
 		return
 	}
-	w.Write([]byte(str))
+	if _, httpErr := w.Write([]byte(str)); httpErr != nil {
+		panic(util.HTTPWriteFail(httpErr))
+	}
 }
 
 // get info of a user as much as the auth allows

@@ -9,7 +9,7 @@ import (
 
 // Start :
 //	Start the articleProvider module
-func Start() util.Err {
+func Start() error {
 	http.HandleFunc(routers.ArticleProvider, serve)
 	return nil
 }
@@ -30,7 +30,10 @@ func serve(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		errorCode = err.ErrorCode()
 	}
-	w.Write([]byte(str))
+	if _, httpErr := w.Write([]byte(str)); httpErr != nil {
+		panic(util.HTTPWriteFail(httpErr))
+	}
+
 }
 
 func getArticle(arg interface{}) (string, util.Err) {
