@@ -6,8 +6,8 @@ const ServerPath = "/api"
 // ArticleProvider : the url path of the article api
 const ArticleProvider = ServerPath + "/article"
 
-// Userinfo : the url path of the userinfo api
-const Userinfo = ServerPath + "/userinfo"
+// CommunityAction : the url path of the communityAction api
+const CommunityAction = ServerPath + "/communityAction"
 
-// Login : the url path of the userinfo api
-const Login = ServerPath + "/login"
+// UserAction : the url path of the communityAction api
+const UserAction = ServerPath + "/userAction"

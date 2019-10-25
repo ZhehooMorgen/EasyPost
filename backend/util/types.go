@@ -7,7 +7,7 @@ type Auth string
 type Role uint32
 
 const (
-	// Nobody : Anyone, even have not logged in; the lowest auth, basicly no auth;
+	// Nobody : Anyone, even have not logged in; the lowest auth, basically no auth;
 	Nobody = 0
 	//Acquaintance : People who know each other(follow each other); can have access to not sensitive data;
 	Acquaintance = 10
@@ -20,14 +20,3 @@ const (
 //UserID : the uniqe uint64 integer to identify user
 type UserID uint64
 
-//UserInfo : the data structure to describe user
-type UserInfo struct {
-	//ID : the uniqe uint64 integer to identify user
-	ID UserID `json:"id"`
-	//Name : the users display name, can be changed frequently
-	Name string `json:"userName"`
-	//password : should never get accessable
-	password string
-	//Phone ：phone number or other contact method of a user, can not leak
-	Phone string `json:"phone"`
-}
