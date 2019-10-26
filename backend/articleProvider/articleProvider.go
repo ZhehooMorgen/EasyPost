@@ -1,6 +1,7 @@
 package articleProvider
 
 import (
+	"backend/helper/httpHelper"
 	"backend/routers"
 	"backend/util"
 	"fmt"
@@ -15,7 +16,7 @@ func Start() error {
 }
 
 func serve(w http.ResponseWriter, req *http.Request) {
-	util.CORS(w)
+	httpHelper.CORS(w)
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
@@ -31,7 +32,7 @@ func serve(w http.ResponseWriter, req *http.Request) {
 		errorCode = err.ErrorCode()
 	}
 	if _, httpErr := w.Write([]byte(str)); httpErr != nil {
-		panic(util.HTTPWriteFail(httpErr))
+		panic(httpHelper.HTTPWriteFail(httpErr))
 	}
 
 }

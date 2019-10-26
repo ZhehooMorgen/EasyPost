@@ -1,13 +1,13 @@
 package userAction
 
 import (
-	"backend/util"
+	"backend/helper/httpHelper"
 	"fmt"
 	"net/http"
 )
 
 func registerService(w http.ResponseWriter, req *http.Request){
-	util.CORS(w)
+	httpHelper.CORS(w)
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
@@ -18,4 +18,13 @@ func registerService(w http.ResponseWriter, req *http.Request){
 		}
 	}()
 	fmt.Println("New request :", req.Method, req.Host, req.RequestURI)
+}
+
+type registerData struct {
+	UserName string `json:"userName"`
+	Password string `json:"password"`
+}
+
+type registerResult struct {
+	UserID string `json:"userID"`
 }

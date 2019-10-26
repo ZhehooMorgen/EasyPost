@@ -39,6 +39,3 @@ func (e *BasicError) ToRange() []error {
 	return append(ret, e)
 }
 
-func HTTPWriteFail(err error) Err {
-	return NewBasicError("failed to response http request", 10, err)
-}

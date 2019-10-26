@@ -1,6 +1,7 @@
 package userAction
 
 import (
+	"backend/helper/httpHelper"
 	"backend/util"
 	"encoding/json"
 	"fmt"
@@ -9,7 +10,7 @@ import (
 )
 
 func LoginService(w http.ResponseWriter, req *http.Request) {
-	util.CORS(w)
+	httpHelper.CORS(w)
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
@@ -36,14 +37,19 @@ func LoginService(w http.ResponseWriter, req *http.Request) {
 		errorCode = 400
 		return
 	}
-	fmt.Printf("%+v\n",loginData)
-	var credential =`odh3fiic45t5x`
+	fmt.Printf("%+v\n", loginData)
+	var credential = `odh3fiic45t5x`
 	if _, httpErr := w.Write([]byte(credential)); httpErr != nil {
-		panic(util.HTTPWriteFail(httpErr))
+		panic(httpHelper.HTTPWriteFail(httpErr))
 	}
 }
 
 type loginData struct {
-	UserName string `json:"userName"`
-	Password string `json:"password"`
+	UserID   util.UserID `json:"userID"`
+	Password string      `json:"password"`
+}
+
+type loginResult struct {
+	OK      bool   `json:"ok"`
+	Session string `json:"session"`
 }
