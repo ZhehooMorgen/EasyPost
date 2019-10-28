@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"math/rand"
+	"strconv"
 	"sync"
 )
 
@@ -75,11 +76,12 @@ func CreateAccount(ctx context.Context, title string, pwd string) (userID string
 		return "", dataBase.NewMongoDBError(e)
 	}
 	if _, e := accounts.InsertOne(ctx, bson.D{
-		{"num",result.Value},
-		{"name", title},
+		{"number",result.Value},
+		{"title", title},
 		{"pwd", pwd},
 	}); e != nil {
 		return "", dataBase.NewMongoDBError(e)
 	}
-	return "fsdfs", nil
+	//TODO: support full int64
+	return strconv.Itoa(int(result.Value)), nil
 }

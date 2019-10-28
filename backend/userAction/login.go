@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func LoginService(w http.ResponseWriter, req *http.Request) {
+func loginService(w http.ResponseWriter, req *http.Request) {
 	httpHelper.CORS(w)
 	var errorCode = 200
 	defer func() {

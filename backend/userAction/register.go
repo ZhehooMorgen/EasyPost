@@ -4,6 +4,7 @@ import (
 	"backend/helper/httpHelper"
 	"backend/userAction/querys"
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -11,7 +12,8 @@ import (
 )
 
 func registerService(w http.ResponseWriter, req *http.Request) {
-	var ctx, cancelCtx = context.WithTimeout(context.Background(), time.Second*3)
+	//var ctx, cancelCtx = context.WithTimeout(context.Background(), time.Second*3)
+	var ctx, cancelCtx = context.WithTimeout(context.Background(), time.Second*300)
 	defer cancelCtx()
 	var regData registerData
 	logInfo, _, err := httpHelper.ReqPreProcess(http.MethodPost, w, req, true, &regData)
@@ -20,14 +22,28 @@ func registerService(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintln(os.Stderr, err.Error())
 		return
 	}
-	if ok, err := querys.ExistAccountTitle(ctx, regData.UserName); !ok || err != nil {
+	if exist, err := querys.ExistAccountTitle(ctx, regData.UserName); exist || err != nil {
+		if err!=nil{
+			w.WriteHeader(500)
+			return
+		}
 		w.WriteHeader(403)
 		if _, e := w.Write([]byte("Already exist")); e != nil {
 			w.WriteHeader(500)
 		}
 		return
 	}
-
+	if newUserID,err:=querys.CreateAccount(ctx, regData.UserName,regData.Password);err!=nil{
+		w.WriteHeader(500)
+		return
+	}else{
+		if data,e:=json.Marshal(registerResult{newUserID});e!=nil{
+			w.WriteHeader(500)
+		}else if _,e=w.Write(data); e != nil {
+			w.WriteHeader(500)
+		}
+		return
+	}
 }
 
 type registerData struct {
