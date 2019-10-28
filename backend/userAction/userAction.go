@@ -2,7 +2,7 @@ package userAction
 
 import (
 	"backend/routers"
-	"backend/userAction/dataBase"
+	"backend/userAction/querys"
 	"backend/util"
 	"net/http"
 )
@@ -11,7 +11,7 @@ import (
 //	Start the articleProvider module
 func Start() util.Err {
 	http.HandleFunc(routers.UserAction+"/login", LoginService)
-	if err := dataBase.ConnectMongoDB(); err != nil {
+	if err := querys.InitMongoDBConnection(); err != nil {
 		return err
 	}
 	return nil

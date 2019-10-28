@@ -61,7 +61,7 @@ func TestReqPreProcess(t *testing.T) {
 		{http.MethodPost, http.MethodPost, `{"A":10}`, &A{}, 0},
 		{http.MethodPost, http.MethodPost, `{"A":10}`, A{}, 500},
 		{http.MethodPost, http.MethodPost, `{"A":10}`, nil, 0},
-		{http.MethodPost, http.MethodDelete, `{"A":10}`, &A{}, 400},
+		{http.MethodPost, http.MethodDelete, `{"A":10}`, &A{}, 405},
 		{http.MethodPost, http.MethodPost, `{"A":10}`, &B{}, 400},
 	}
 

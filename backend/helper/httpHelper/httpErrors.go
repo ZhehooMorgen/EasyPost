@@ -7,7 +7,7 @@ func HTTPWriteFail(err error) util.Err {
 }
 
 func HTTPMethodWrong(err error) util.Err {
-	return util.NewBasicError("the http request has wrong method", 400, err)
+	return util.NewBasicError("the http request has wrong method", 405, err)
 }
 
 func HTTPReadFail(err error) util.Err {

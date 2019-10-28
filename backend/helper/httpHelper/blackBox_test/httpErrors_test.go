@@ -15,7 +15,7 @@ func TestGen_ReqDataParseFail(t *testing.T){
 }
 
 func TestGen_HTTPMethodWrong(t *testing.T){
-	if httpHelper.HTTPMethodWrong(nil).ErrorCode()!=400{
+	if httpHelper.HTTPMethodWrong(nil).ErrorCode()!=405{
 		t.Fatal("error code gen not correct")
 	}
 }

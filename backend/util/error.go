@@ -1,5 +1,15 @@
 package util
 
+/*
+	Error code rule
+	Use http error code as much as possible
+	Unknown error use sub zero error code
+	Error code under 100 represent system and program error:
+		10: Program logic unrecoverable error
+		20: Network to specific service unrecoverable disconnected
+*/
+
+
 type Err interface {
 	error
 	ErrorCode() int
