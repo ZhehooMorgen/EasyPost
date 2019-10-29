@@ -21,7 +21,7 @@ func TestGen_HTTPMethodWrong(t *testing.T){
 }
 
 func TestGen_HTTPWriteFail(t *testing.T){
-	if httpHelper.HTTPWriteFail(nil).ErrorCode()!=10{
+	if httpHelper.HTTPWriteFail(nil).ErrorCode()!=20{
 		t.Fatal("error code gen not correct")
 	}
 }

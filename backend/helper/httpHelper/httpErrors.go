@@ -3,7 +3,7 @@ package httpHelper
 import "backend/util"
 
 func HTTPWriteFail(err error) util.Err {
-	return util.NewBasicError("failed to response http request", 10, err)
+	return util.NewBasicError("failed to response http request", 20, err)
 }
 
 func HTTPMethodWrong(err error) util.Err {
