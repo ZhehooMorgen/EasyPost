@@ -7,6 +7,7 @@ package util
 	Error code under 100 represent system and program error:
 		10: Program logic unrecoverable error
 		20: Network to specific service unrecoverable disconnected
+		74: Fail due to context is canceled
 */
 
 
@@ -47,5 +48,9 @@ func (e *BasicError) ToRange() []error {
 		}
 	}
 	return append(ret, e)
+}
+
+func NewContextCanceled( previousError error) Err {
+	return NewBasicError("Context is canceled, return",74,previousError)
 }
 
