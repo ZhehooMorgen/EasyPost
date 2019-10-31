@@ -51,19 +51,20 @@ func (s *BasicScheduler) Request(ctx context.Context, logic func(), resources ..
 //return if all res is accessible in the pool
 //will return NewInvalidResourceError if refereed res did not reg to this scheduler
 func (s *BasicScheduler) resAllAccessible(resources ...Resource) (bool, util.Err) {
+	accessAble := true
 	for _, resource := range resources {
 		_, id := resource.Definition()
 		if id != uuid.Nil {
 			if res, ok := s.uuidResPool[id]; !ok {
 				return false, NewInvalidResourceError(nil)
 			} else if res == nil {
-				return false, nil
+				accessAble = false
 			}
 		} else {
 			return false, NewIllegalUUID(nil)
 		}
 	}
-	return true, nil
+	return accessAble, nil
 }
 
 func (s *BasicScheduler) getAllRes(resources ...Resource) []Resource {
