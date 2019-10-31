@@ -2,16 +2,16 @@ package resourceScheduler
 
 import (
 	"backend/util"
-	"container/list"
 	"context"
+	"errors"
 	"github.com/satori/go.uuid"
 	"sync"
 )
 
 type BasicScheduler struct {
-	typeResPool map[Type]*list.List
+	//typeResPool map[Type]*list.List
 	uuidResPool map[uuid.UUID]Resource
-	requests    map[chan []Resource][]Resource	//put something to wakeup request then actual []Resource, so send twice
+	requests    map[chan []Resource][]Resource //put something to wakeup request then actual []Resource, so send twice
 	mutex       sync.Mutex
 }
 
@@ -22,29 +22,23 @@ func NewBasicScheduler() Scheduler {
 }
 
 func (s *BasicScheduler) init() {
-	s.typeResPool = map[Type]*list.List{}
 	s.uuidResPool = map[uuid.UUID]Resource{}
 	s.requests = map[chan []Resource][]Resource{}
 }
 
 func (s *BasicScheduler) RegRes(resource Resource) util.Err {
-	if s.typeResPool == nil || s.uuidResPool == nil {
+	if s.uuidResPool == nil || s.requests == nil {
 		return NewUseOfNoneInitScheduler(nil)
 	}
-	t, id := resource.Definition()
-	if id == (uuid.UUID{}) {
-		if _, ok := s.typeResPool[t]; !ok {
-			s.typeResPool[t] = list.New()
-		}
-		s.typeResPool[t].PushBack(resource)
-	} else {
-		s.uuidResPool[id] = resource
+	_, id := resource.Definition()
+	if id == uuid.Nil {
+		return NewIllegalUUID(errors.New("uuid is zero, please make sure resource have unique uuid"))
 	}
+	s.uuidResPool[id] = resource
 	return nil
 }
 
 func (s *BasicScheduler) Request(ctx context.Context, logic func(), resources ...Resource) util.Err {
-	//TODO: complete request function
 	resources, err := s.safeGetAllRes(ctx, resources...)
 	if err != nil {
 		return err
@@ -58,35 +52,26 @@ func (s *BasicScheduler) Request(ctx context.Context, logic func(), resources ..
 //will return NewInvalidResourceError if refereed res did not reg to this scheduler
 func (s *BasicScheduler) resAllAccessible(resources ...Resource) (bool, util.Err) {
 	for _, resource := range resources {
-		t, id := resource.Definition()
-		if (id != uuid.UUID{}) {
-			if res, ok := s.uuidResPool[id]; ok {
+		_, id := resource.Definition()
+		if id != uuid.Nil {
+			if res, ok := s.uuidResPool[id]; !ok {
 				return false, NewInvalidResourceError(nil)
 			} else if res == nil {
 				return false, nil
 			}
 		} else {
-			if resList, ok := s.typeResPool[t]; !ok {
-				return false, NewInvalidResourceError(nil)
-			} else if resList.Len() < 1 {
-				return false, nil
-			}
+			return false, NewIllegalUUID(nil)
 		}
 	}
 	return true, nil
 }
 
-func (s *BasicScheduler) getAllRes(resources ... Resource)[]Resource{
+func (s *BasicScheduler) getAllRes(resources ...Resource) []Resource {
 	var gotRes []Resource
 	for _, resource := range resources {
-		t, id := resource.Definition()
-		if (id != uuid.UUID{}) {
-			gotRes = append(gotRes, s.uuidResPool[id])
-			s.uuidResPool[id] = nil
-		} else {
-			back := s.typeResPool[t].Back()
-			gotRes = append(gotRes, s.typeResPool[t].Remove(back).(Resource))
-		}
+		_, id := resource.Definition()
+		gotRes = append(gotRes, s.uuidResPool[id])
+		s.uuidResPool[id] = nil
 	}
 	return gotRes
 }
@@ -98,7 +83,7 @@ func (s *BasicScheduler) safeGetAllRes(ctx context.Context, resources ...Resourc
 		s.mutex.Unlock()
 		return nil, err
 	} else if ok {
-		gotRes:=s.getAllRes(resources...)
+		gotRes := s.getAllRes(resources...)
 		s.mutex.Unlock()
 		return gotRes, nil
 	} else {
@@ -120,28 +105,25 @@ func (s *BasicScheduler) safeReturnAllRes(resources []Resource) {
 	var wakeUp = func(ch chan []Resource) (success bool) {
 		defer func() {
 			//will panic if the request already canceled
-			if p:=recover();p!=nil{
-				success=false
+			if p := recover(); p != nil {
+				success = false
 			}
-			delete(s.requests, ch)	//delete the request despite if request canceled
+			delete(s.requests, ch) //delete the request despite if request canceled
 		}()
-		ch<-nil
+		ch <- nil
 		return true
 	}
 	s.mutex.Lock()
 	for _, resource := range resources {
-		t, id := resource.Definition()
-		if (id != uuid.UUID{}) {
+		if resource!=nil{	//resource can be nil if request contains same res for more than one times!
+			_, id := resource.Definition()
 			s.uuidResPool[id] = resource
-		} else {
-			s.typeResPool[t].PushBack(resource)
 		}
 	}
-	for ch,reqRes :=range s.requests{
-		if ok,_:=s.resAllAccessible(reqRes...);ok{
-			if wakeUp(ch){
-				ch<-s.getAllRes(reqRes...)
-				break
+	for ch, reqRes := range s.requests {
+		if ok, _ := s.resAllAccessible(reqRes...); ok {
+			if wakeUp(ch) {
+				ch <- s.getAllRes(reqRes...)
 			}
 		}
 	}
