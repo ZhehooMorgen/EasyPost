@@ -113,19 +113,21 @@ func (s *BasicScheduler) safeReturnAllRes(resources []Resource) {
 		ch <- nil
 		return true
 	}
-	s.mutex.Lock()
-	for _, resource := range resources {
-		if resource!=nil{	//resource can be nil if request contains same res for more than one times!
-			_, id := resource.Definition()
-			s.uuidResPool[id] = resource
-		}
-	}
-	for ch, reqRes := range s.requests {
-		if ok, _ := s.resAllAccessible(reqRes...); ok {
-			if wakeUp(ch) {
-				ch <- s.getAllRes(reqRes...)
+	go func() {
+		s.mutex.Lock()
+		for _, resource := range resources {
+			if resource!=nil{	//resource can be nil if request contains same res for more than one times!
+				_, id := resource.Definition()
+				s.uuidResPool[id] = resource
 			}
 		}
-	}
-	s.mutex.Unlock()
+		for ch, reqRes := range s.requests {
+			if ok, _ := s.resAllAccessible(reqRes...); ok {
+				if wakeUp(ch) {
+					ch <- s.getAllRes(reqRes...)
+				}
+			}
+		}
+		s.mutex.Unlock()
+	}()
 }
