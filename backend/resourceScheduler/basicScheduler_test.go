@@ -133,8 +133,9 @@ func TestBasicScheduler(t *testing.T) {
 	wait := sync.WaitGroup{}
 	wait.Add(7)
 	for _, item := range testCase {
+		var local = item
 		go func() {
-			Pay(bank, item.From, item.To, item.Amount, item.Duration)
+			Pay(bank, local.From, local.To, local.Amount, local.Duration)
 			wait.Done()
 		}()
 	}
