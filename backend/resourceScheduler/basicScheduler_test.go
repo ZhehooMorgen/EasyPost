@@ -116,36 +116,28 @@ func TestBasicScheduler(t *testing.T) {
 	_ = bank.RegRes(Bill)
 	_ = bank.RegRes(Simon)
 	_ = bank.RegRes(Dave)
+	var testCase = []struct {
+		From     *BankAccount
+		To       *BankAccount
+		Amount   int
+		Duration time.Duration
+	}{
+		{Bob, Bill, 2, 110},
+		{Simon, Dave, 43, 154},
+		{Dave, Bob, 564, 164},
+		{Bill, Simon, 28, 104},
+		{Bill, Bill, 83, 139},
+		{Bob, Bob, 53, 195},
+		{Simon, Simon, 47, 103},
+	}
 	wait := sync.WaitGroup{}
 	wait.Add(7)
-	go func() {
-		Pay(bank, Bob, Bill, 2, 110)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Simon, Dave, 43, 154)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Dave, Bob, 564, 164)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Bill, Simon, 28, 104)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Bill, Bill, 83, 139)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Bob, Bob, 53, 195)
-		wait.Done()
-	}()
-	go func() {
-		Pay(bank, Simon, Simon, 47, 103)
-		wait.Done()
-	}()
+	for _, item := range testCase {
+		go func() {
+			Pay(bank, item.From, item.To, item.Amount, item.Duration)
+			wait.Done()
+		}()
+	}
 	go func() {
 		ctx, _ := context.WithTimeout(context.Background(), 1)
 		bank.Request(ctx, func() {}, Simon, Bob, Bill, Dave)
