@@ -129,6 +129,7 @@ func TestBasicScheduler(t *testing.T) {
 		{Bill, Bill, 83, 139},
 		{Bob, Bob, 53, 195},
 		{Simon, Simon, 47, 103},
+		{Dave, Dave, 9, 100},
 	}
 	wait := sync.WaitGroup{}
 	wait.Add(7)
