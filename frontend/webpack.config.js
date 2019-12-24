@@ -38,6 +38,13 @@ module.exports = function (env, args) {
                         'style-loader',
                         'css-loader'
                     ]
+                },
+                {
+                    test : /\.(png|jpg|gif|svg)$/,
+                    exclude: /node_modules/,
+                    use :[
+                        'script-loader'
+                    ]
                 }
             ]
         },
