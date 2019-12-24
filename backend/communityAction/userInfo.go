@@ -1,6 +1,7 @@
 package communityAction
 
 import (
+	"backend/helper/httpHelper"
 	"backend/util"
 	"encoding/json"
 	"fmt"
@@ -12,7 +13,7 @@ import (
 
 
 func userInfoService(w http.ResponseWriter, req *http.Request) {
-	util.CORS(w)
+	httpHelper.CORS(w)
 	var errorCode = 200
 	defer func() {
 		if errorCode != 200 {
@@ -57,7 +58,7 @@ func userInfoService(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	if _, httpErr := w.Write([]byte(str)); httpErr != nil {
-		panic(util.HTTPWriteFail(httpErr))
+		panic(httpHelper.HTTPWriteFail(httpErr))
 	}
 }
 

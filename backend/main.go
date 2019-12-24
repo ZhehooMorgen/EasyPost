@@ -3,6 +3,7 @@ package main
 import (
 	"backend/articleProvider"
 	"backend/communityAction"
+	"backend/dataBase"
 	"backend/userAction"
 	"fmt"
 	"net/http"
@@ -10,6 +11,8 @@ import (
 
 func main() {
 	go http.ListenAndServe(":86", nil)
+	fmt.Println("articleProvider service started successfully?:", dataBase.ConnectAndGetAllCollections() == nil)
+
 	fmt.Println("articleProvider service started successfully?:", userAction.Start() == nil)
 	fmt.Println("communityAction service started successfully?:", communityAction.Start() == nil)
 	fmt.Println("articleProvider service started successfully?:", articleProvider.Start() == nil)

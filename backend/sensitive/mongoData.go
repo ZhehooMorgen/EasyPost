@@ -9,4 +9,5 @@ const (
 
 const (
 	COLLECTION_NAME_ACCOUNTS = "accounts"
+	COLLECTION_NAME_SETTINGS = "settings"
 )

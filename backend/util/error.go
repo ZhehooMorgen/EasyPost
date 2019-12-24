@@ -1,20 +1,32 @@
 package util
 
+/*
+	Error code rule
+	Use http error code as much as possible
+	Unknown error use sub zero error code
+	Error code under 100 represent system and program error:
+		10: Program logic unrecoverable error
+		20: Network to specific service unrecoverable disconnected
+		74: Fail due to context is canceled
+*/
+
+//Design:
+//	Err is a linked list end with any interface,
 type Err interface {
 	error
-	ErrorCode() int
-	PreviousError() error
-	ToRange() []error
+	ErrorCode() int         //Get error code of current error
+	Previous() interface{}  //Get the next item of linked list
+	ToRange() []interface{} //convert previous errors item and itself into a slice, starting with the first occurred error item
 }
 
 type BasicError struct {
-	error         string
-	errorCode     int
-	previousError error
+	error     string
+	errorCode int
+	previous  interface{}
 }
 
-func NewBasicError(error string, errorCode int, previousError error) Err {
-	return &BasicError{error, errorCode, previousError}
+func NewBasicError(error string, errorCode int, previous interface{}) Err {
+	return &BasicError{error, errorCode, previous}
 }
 
 func (e *BasicError) Error() string {
@@ -25,20 +37,22 @@ func (e *BasicError) ErrorCode() int {
 	return e.errorCode
 }
 
-func (e *BasicError) PreviousError() error {
-	return e.previousError
+func (e *BasicError) Previous() interface{} {
+	return e.previous
 }
 
-func (e *BasicError) ToRange() []error {
-	var ret []error
-	if e.previousError != nil {
-		if err, ok := e.previousError.(Err); ok {
+func (e *BasicError) ToRange() []interface{} {
+	var ret []interface{}
+	if e.previous != nil {
+		if err, ok := e.previous.(Err); ok {
 			ret = err.ToRange()
+		} else {
+			ret = append(ret, e.previous)
 		}
 	}
 	return append(ret, e)
 }
 
-func HTTPWriteFail(err error) Err {
-	return NewBasicError("failed to response http request", 10, err)
+func NewContextCanceled(previousError interface{}) Err {
+	return NewBasicError("Context is canceled, return", 74, previousError)
 }
