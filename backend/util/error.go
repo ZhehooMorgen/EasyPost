@@ -11,13 +11,12 @@ package util
 */
 
 //Design:
-//	Err is a linked list end with an interface,
-//	That interface can be
+//	Err is a linked list end with any interface,
 type Err interface {
 	error
-	ErrorCode() int
-	Previous() interface{}
-	ToRange() []interface{}
+	ErrorCode() int         //Get error code of current error
+	Previous() interface{}  //Get the next item of linked list
+	ToRange() []interface{} //convert previous errors item and itself into a slice, starting with the first occurred error item
 }
 
 type BasicError struct {
@@ -47,14 +46,13 @@ func (e *BasicError) ToRange() []interface{} {
 	if e.previous != nil {
 		if err, ok := e.previous.(Err); ok {
 			ret = err.ToRange()
-		}else{
+		} else {
 			ret = append(ret, e.previous)
 		}
 	}
 	return append(ret, e)
 }
 
-func NewContextCanceled( previousError interface{}) Err {
-	return NewBasicError("Context is canceled, return",74,previousError)
+func NewContextCanceled(previousError interface{}) Err {
+	return NewBasicError("Context is canceled, return", 74, previousError)
 }
-

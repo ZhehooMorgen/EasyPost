@@ -22,24 +22,24 @@ func (b *BankAccount) Definition() (Type, uuid.UUID) {
 
 func Pay(bank Scheduler, from *BankAccount, to *BankAccount, amount int, duration time.Duration) util.Err {
 	return bank.Request(context.Background(), func() {
-		fmt.Println("from ",from.Name, " to ", to.Name," start")
-		if &from.Balance != &to.Balance{
+		fmt.Println("from ", from.Name, " to ", to.Name, " start")
+		if &from.Balance != &to.Balance {
 			f := from.Balance - amount
 			t := to.Balance + amount
 			time.Sleep(duration * time.Millisecond)
 			from.Balance = f
 			to.Balance = t
-		}else {
-			b :=from.Balance
+		} else {
+			b := from.Balance
 			time.Sleep(duration * time.Millisecond)
 			to.Balance = b
 		}
-		fmt.Println("from ",from.Name, " to ", to.Name," finish")
+		fmt.Println("from ", from.Name, " to ", to.Name, " finish")
 	}, from, to)
 }
 
 func TestBasicScheduler_RegRes(t *testing.T) {
-	if ((&BasicScheduler{}).RegRes(nil) == nil) {
+	if (&BasicScheduler{}).RegRes(nil) == nil {
 		t.Fatal()
 	}
 	var scheduler Scheduler = NewBasicScheduler()
