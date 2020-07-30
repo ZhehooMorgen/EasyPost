@@ -1,26 +1,42 @@
-.AppBar{
+#AppBar{
     display: flex;
     flex-direction: row;
-    background-color: rgb(88, 168, 182);
+    background-color: rgb(27, 50, 51);
+    color: rgb(163, 157, 144);
     height: 50px;
     font-weight:400;
-    font-size: larger;
+    width: 100%;
+    /* font-size: x-large; */
+    position: fixed;
+    box-shadow: 0px 2px 5px rgb(14, 17, 41);
+    transition: top  0.3s;
+    top: 0;
+    z-index: 999;
 }
 
-.AppBar>*{
+#AppBarHide{
+    top: -50px;
+}
+
+#AppbarPlaceHolder{
+    height: 50px;
+    width: 100%;
+}
+
+#AppBar>*{
     margin-top: auto;
     margin-bottom: auto;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.MenuButton{
-    background-color: white;
-    transition: background-color 0.5s;
+#AppBarMenuButton{
+    color: inherit;
+    transition: background-color 0.2s;
 }
 
-.MenuButton:hover{
-    background-color: grey;
+#AppBarMenuButton:hover{
+    background-color: white;
 }
 
 .Title{
@@ -32,3 +48,4 @@
     background-color: inherit;
     width: 300;
 }
+

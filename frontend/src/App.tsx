@@ -1,31 +1,20 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import AppBar from './components/AppBar'
+import Editor from './components/Editor';
+import './App.css'
 
-
-interface IProps{
-    
-}
-
-interface IState{
-    second : number
-}
-
-class App extends Component<IProps,IState> {
-    public readonly state : IState = {
-        second: 0
-    }
-
-    constructor(props : IProps){
-        super(props)
-    }
+class App extends Component {
 
     render(): JSX.Element {
-        
+
         return (
-            <div>
-                <AppBar/>
-                <h1 className='red'>this is a ts react page!</h1>
-                <h2>this.state.second={this.state.second}</h2>
+            <div id="fullPage">
+                <AppBar />
+                <div>
+
+                    <Editor></Editor>
+                </div>
+
             </div>
         )
     }
