@@ -1,0 +1,47 @@
+$barHeight: 40px;
+
+
+#AppBar {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(140, 0, 126);
+    color: white;
+    height: $barHeight;
+    font-weight: 400;
+    width: 100%;
+    position: fixed;
+    box-shadow: 0px 3px 5px rgb(0, 0, 0);
+
+    & > * {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #iconWarpper {
+        &:hover {
+            background-color: rgba($color: #000, $alpha: 0.4);
+        }
+        transition: background-color 0.1s ease;
+        height: $barHeight;
+        width: $barHeight;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        #icon {
+            font-size: 30px;
+        }
+    }
+    hr{
+        height: 25px;
+        width: 1px;
+        background-color: #ffffff60;
+        border: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+}

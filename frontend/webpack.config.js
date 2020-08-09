@@ -34,10 +34,10 @@ module.exports = function (env, args) {
                 {
                     test: /\.(png|jpg|gif|ttf|eot|woff|woff2)$/i,
                     use: [
-                      {
-                        loader: 'url-loader',
-                        options: { limit: 8192 }
-                      }
+                        {
+                            loader: 'url-loader',
+                            options: { limit: 8192 }
+                        }
                     ]
                 },
                 {
@@ -50,7 +50,7 @@ module.exports = function (env, args) {
                 {
                     test: /\.scss/,
                     exclude: /node_modules/,
-                    use: ['style-loader', 'css-loader','sass-loader']
+                    use: ['style-loader', 'css-loader', 'sass-loader']
                 },
                 {
                     test: /\.(png|jpg|gif|svg)$/,
