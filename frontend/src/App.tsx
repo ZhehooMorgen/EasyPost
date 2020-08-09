@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import AppBar from './components/AppBar'
-import Editor from './components/Editor';
-import './App.css'
+import './App.scss'
 
 class App extends Component {
 
@@ -11,8 +10,6 @@ class App extends Component {
             <div id="fullPage">
                 <AppBar />
                 <div>
-
-                    <Editor></Editor>
                 </div>
 
             </div>
