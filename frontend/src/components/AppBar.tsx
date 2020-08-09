@@ -8,8 +8,7 @@ export default class AppBar extends Component {
         return (
             <div id='AppBar'>
                 <div id="iconWarpper">
-                    {/* <Icon iconName="OfficeAddinsLogo" id='icon' /> */}
-                    <div id='icon'>田</div>
+                    <Icon iconName="OfficeAddinsLogo" id='icon' />
                 </div>
                 <div className='Title'>Easy Post!</div>
             </div>
