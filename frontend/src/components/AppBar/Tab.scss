@@ -9,7 +9,6 @@
     cursor: pointer;
     transition: background-color 0.1s ease;
     &:hover{
-        // background-color: rgba($color: #000000, $alpha: 0.4);
         .close{
             visibility: visible;
         }
@@ -18,12 +17,17 @@
     .TabContent{
         font-weight: lighter;
     }
-    .close{
+    .iconWarpper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 12px;
         padding-left: 12px;
+    }
+    .close{
         font-size: 8px;
         font-weight:bolder;
         visibility: hidden;
-        border-radius: 50%;
         transition: font-size 0.1s ease;
         &:hover{
             color: white;

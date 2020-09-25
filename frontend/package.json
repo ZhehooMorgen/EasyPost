@@ -13,7 +13,6 @@
     "@types/react": "^16.9.5",
     "@types/react-dom": "^16.9.1",
     "codemirror": "^5.53.2",
-    "easymde": "^2.10.1",
     "office-ui-fabric-react": "^7.47.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
