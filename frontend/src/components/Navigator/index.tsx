@@ -11,10 +11,9 @@ export default class Navigator extends Component<props> {
     state: {
         chosen: number
     } = {
-            chosen: 0,
+            chosen: null,
         }
     render() {
-        this.props.UXFuncModules[this.state.chosen].OnShow()
         let fList = this.props.UXFuncModules.map((func, index) => {
             return <Icon iconName={func.Icon} className="FuncIcon" key={index} onClick={() => {
                 this.switchFuncUX(index)
@@ -28,16 +27,19 @@ export default class Navigator extends Component<props> {
                 <Icon iconName={IconNames.Settings} className="FuncIcon" />
             </div>
             <div id='UxArea'>
-                {this.props.UXFuncModules[this.state.chosen].Render(this)}
+                {this.state.chosen!=null&&this.props.UXFuncModules[this.state.chosen].Render(this)}
             </div>
         </div>
     }
 
     switchFuncUX(index: number) {
         if (!(index >= 0 && index < this.props.UXFuncModules.length)) {
-            throw "selected"
+            throw "invalid selection"
         }
-        this.props.UXFuncModules[this.state.chosen].OnHide()
+        if(this.state.chosen!=null){
+            this.props.UXFuncModules[this.state.chosen].OnHide()
+        }
+        this.props.UXFuncModules[index].OnShow()
         this.setState({
             chosen: index
         })

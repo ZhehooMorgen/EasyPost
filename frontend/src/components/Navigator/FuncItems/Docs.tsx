@@ -7,62 +7,75 @@ import './Docs.scss'
 
 interface Node {
     Ref: FileNode
-    Expand: boolean
+    Expand: boolean //cannot expand (do not have children) if null
+    Children: Array<Node>   //need to load children (not no children) if null, no existing children if empty
 }
 
 export default class Docs extends FuncItem {
     state: {
         Node: Node
-    } = {
-            Node: {
-                Ref: FileSys,
-                Expand: true
-            }
-        }
+    }={
+        Node:null
+    }
     Render(component: Component): JSX.Element {
-
-        return <div>
-            <LineElement
-                contents={
-                    <div>
-                        <div>
-                            <Icon iconName={IconNames.ChevronRight} className="chevron" style={{
-                                transform: this.state.Node.Expand && "rotate(90deg)",
-                                fontSize: "11px"
-                            }} onClick={() => { this.state.Node.Expand = !this.state.Node.Expand; component.setState({}) }}
-                            />
-                        </div>
-                        <div>test_test</div>
-                    </div>
-                }
-                end={<div>!</div>}
-            />
-            <LineElement
-                indent={1}
-                contents={
-                    <div>
+        let indexer = 0
+        let genUX = (node: Node, depth: number): JSX.Element[] => {
+            let elements = new Array<JSX.Element>()
+            elements.push(
+                <LineElement
+                    key={indexer++}
+                    indent={depth}
+                    contents={
                         <div>
                             <Icon
-                                iconName={IconNames.ChevronRight} className="chevron" style={{
-                                    transform: this.state.Node.Expand && "rotate(90deg)",
+                                iconName={node.Expand !== true ? node.Expand === false ? IconNames.FabricFolder : IconNames.TextDocument : IconNames.FabricOpenFolderHorizontal} style={{
                                     fontSize: "11px"
-                                }}
-                                onClick={() => { this.state.Node.Expand = !this.state.Node.Expand; component.setState({}) }}
-                            />
+                                }} />
+                            <div>{node.Ref.name}</div>
                         </div>
-                        <div>test_test_________________abc</div>
-                    </div>
-                }
-                end={<div>!</div>}
-            />
+                    }
+                    end={<Icon
+                        iconName={IconNames.Cancel} style={{
+                            fontSize: "11px"
+                        }} />}
+                />
+            )
+            if (node.Expand === true) {
+                node.Children.forEach((node) => {
+                    elements = elements.concat(genUX(node, depth + 1))
+                })
+            }
+            return elements
+        }
+
+        return <div>
+            {genUX(this.state.Node, 0)}
         </div>
     }
     Icon = IconNames.FabricDocLibrary
     OnShow() {
         console.log("doc show")
+        this.state.Node = Docs.convertFromFileInfo(FileSys)
     }
     OnHide() {
         console.log("doc hide")
+    }
+
+    private static convertFromFileInfo(fileInfo: FileNode): Node {
+        let node: Node
+        node = {
+            Ref: fileInfo,
+            Expand: null,
+            Children: null
+        }
+        if (fileInfo.content instanceof Array) {
+            node.Expand = false
+            node.Children = []
+            fileInfo.content.forEach(child => {
+                node.Children.push(this.convertFromFileInfo(child))
+            })
+        }
+        return node;
     }
 }
 
