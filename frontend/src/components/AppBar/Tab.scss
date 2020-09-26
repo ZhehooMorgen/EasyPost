@@ -1,0 +1,45 @@
+.Tab{
+    height: 100%;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+    &:hover{
+        .close{
+            visibility: visible;
+        }
+    }
+
+    .TabContent{
+        font-weight: lighter;
+    }
+    .iconWarpper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 12px;
+        padding-left: 12px;
+    }
+    .close{
+        font-size: 8px;
+        font-weight:bolder;
+        visibility: hidden;
+        transition: font-size 0.1s ease;
+        &:hover{
+            color: white;
+            font-size: 12px;
+        }
+    }
+}
+
+.TabSelected{
+    @extend .Tab;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    .close{
+        visibility: visible;
+    }
+}

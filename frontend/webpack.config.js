@@ -22,7 +22,7 @@ module.exports = function (env, args) {
         module: {
             rules: [
                 {
-                    test: /\.js$/,
+                    test: /\.(js|jsx)$/,
                     exclude: /node_modules/,
                     loader: "babel-loader"
                 },
@@ -32,20 +32,39 @@ module.exports = function (env, args) {
                     exclude: /node_modules/
                 },
                 {
+                    test: /\.(png|jpg|gif|ttf|eot|woff|woff2)$/i,
+                    use: [
+                        {
+                            loader: 'url-loader',
+                            options: { limit: 8192 }
+                        }
+                    ]
+                },
+                {
                     test: /\.css$/,
-                    exclude: /node_modules/,
                     use: [
                         'style-loader',
                         'css-loader'
                     ]
                 },
                 {
-                    test : /\.(png|jpg|gif|svg)$/,
+                    test: /\.scss/,
                     exclude: /node_modules/,
-                    use :[
+                    use: ['style-loader', 'css-loader', 'sass-loader']
+                },
+                {
+                    test: /\.(png|jpg|gif|svg)$/,
+                    exclude: /node_modules/,
+                    use: [
                         'script-loader'
                     ]
-                }
+                },
+                {
+                    test: /\.less$/,
+                    use: [
+                        "less-loader" // compiles Less to CSS
+                    ]
+                },
             ]
         },
         resolve: {
