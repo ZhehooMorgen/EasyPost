@@ -13,6 +13,9 @@ export default class Navigator extends Component<props> {
     } = {
             chosen: null,
         }
+    componentDidMount() {
+        this.switchFuncUX(0)
+    }
     render() {
         let fList = this.props.UXFuncModules.map((func, index) => {
             return <Icon iconName={func.Icon} className="FuncIcon" key={index} onClick={() => {
@@ -27,7 +30,9 @@ export default class Navigator extends Component<props> {
                 <Icon iconName={IconNames.Settings} className="FuncIcon" />
             </div>
             <div id='UxArea'>
-                {this.state.chosen!=null&&this.props.UXFuncModules[this.state.chosen].Render(this)}
+                {this.state.chosen != null && this.props.UXFuncModules[this.state.chosen].Render(this, (i) => {
+                    console.log("addTab: " + i)
+                })}
             </div>
         </div>
     }
@@ -36,7 +41,7 @@ export default class Navigator extends Component<props> {
         if (!(index >= 0 && index < this.props.UXFuncModules.length)) {
             throw "invalid selection"
         }
-        if(this.state.chosen!=null){
+        if (this.state.chosen != null) {
             this.props.UXFuncModules[this.state.chosen].OnHide()
         }
         this.props.UXFuncModules[index].OnShow()

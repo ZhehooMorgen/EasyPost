@@ -14,10 +14,10 @@ interface Node {
 export default class Docs extends FuncItem {
     state: {
         Node: Node
-    }={
-        Node:null
-    }
-    Render(component: Component): JSX.Element {
+    } = {
+            Node: null
+        }
+    Render(component: Component,addTab:(renderer:()=>JSX.Element)=>void): JSX.Element {
         let indexer = 0
         let genUX = (node: Node, depth: number): JSX.Element[] => {
             let elements = new Array<JSX.Element>()
@@ -26,18 +26,25 @@ export default class Docs extends FuncItem {
                     key={indexer++}
                     indent={depth}
                     contents={
-                        <div>
-                            <Icon
-                                iconName={node.Expand !== true ? node.Expand === false ? IconNames.FabricFolder : IconNames.TextDocument : IconNames.FabricOpenFolderHorizontal} style={{
-                                    fontSize: "11px"
-                                }} />
-                            <div>{node.Ref.name}</div>
-                        </div>
+                        [
+                            <Icon key="icon"
+                                iconName={node.Expand !== true ? node.Expand === false ? IconNames.FabricFolder : IconNames.TextDocument : IconNames.FabricOpenFolderHorizontal}
+                            />,
+                            <div key="name">{node.Ref.name}</div>
+                        ]
                     }
-                    end={<Icon
+                    end={<Icon className="docsEndLineIcon"
                         iconName={IconNames.Cancel} style={{
                             fontSize: "11px"
-                        }} />}
+                        }}
+                        onClick={(e) => { e.stopPropagation() }}
+                    />}
+                    onClick={node.Expand != null ? () => {
+                        node.Expand = !node.Expand
+                        component.setState({})
+                    } : () => addTab(()=>{
+                    return <div>{node.Ref.content}</div>
+                    })}
                 />
             )
             if (node.Expand === true) {
