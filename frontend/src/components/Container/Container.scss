@@ -1,0 +1,15 @@
+#AppContainer{
+    width: 100%;
+    display: flex;
+    text-align: center;
+}
+
+.containerWarrper{
+    width: 100%;
+}
+
+.editor{
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
