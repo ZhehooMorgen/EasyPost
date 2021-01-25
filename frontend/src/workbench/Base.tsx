@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import './Base.scss'
 
-export default abstract class Base<T> extends Component<{data:T}> {}
-
-export class BaseAny extends Base<any>{
-    render(){
-        return RenderSingle(1,20,this.props.data)
-    }
+export default interface Base<T> {
+    (data: T): JSX.Element
 }
 
-function RenderSingle(index: number, count: number, data:any): JSX.Element {
+export function BaseAny(data: any){
+    return RenderSingle(1, 20, data)
+}
+
+export function BaseString(data:string){
+    return RenderSingle(2,19,data)
+}
+
+function RenderSingle(index: number, count: number, data: any): JSX.Element {
     let viewArray: JSX.Element[] = []
     for (let i = 0; i < count; i++) {
         viewArray.push(
@@ -24,7 +28,7 @@ function RenderSingle(index: number, count: number, data:any): JSX.Element {
             </div>
         )
     }
-    return <div key={index}className="workbench">
+    return <div key={index} className="workbench">
         {viewArray}
     </div>
 }

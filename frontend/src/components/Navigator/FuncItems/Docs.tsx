@@ -1,10 +1,11 @@
 import { Icon, IconNames } from 'office-ui-fabric-react';
 import React, { Component } from 'react';
 import FileSys, { FileNode } from '../../../lib/FileSys'
-import { ITabOpener, Base } from '../../../workbench';
+import { ITabOpener, Base } from '../../../Workbench';
 import { FuncItem, LineElement } from './def';
 
 import './Docs.scss'
+import { BaseAny, BaseString } from '../../../Workbench/Base';
 
 interface Node {
     Ref: FileNode
@@ -43,7 +44,7 @@ export default class Docs extends FuncItem<string> {
                     onClick={node.Expand != null ? () => {
                         node.Expand = !node.Expand
                         component.setState({})
-                    } : () =>openTab(node.Ref.content as string,Base<string>)}
+                    } : () =>openTab(node.Ref.content as string,BaseString)}
                 />
             )
             if (node.Expand === true) {

@@ -6,5 +6,5 @@
 - *.css/scss    the style files
 - components    UI elements (exclude workbench elements)
 - workbench     UI of workbench
-- lib           logic code use by UI
+- lib           logic code used by UI
 - test          code used to test
