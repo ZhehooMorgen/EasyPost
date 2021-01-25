@@ -1,9 +1,10 @@
 import { Icon, IconNames } from 'office-ui-fabric-react';
 import React, { Component } from 'react';
+import { ITabOpener } from '../../../workbench';
 import './def.scss'
 
-export class FuncItem {
-    Render(component: Component,addTab: (render:()=>JSX.Element)=>void): JSX.Element {
+export abstract class FuncItem<T> {
+    Render(component: Component,openTab: ITabOpener<T>): JSX.Element {
         return null
     }
     readonly Icon: IconNames
