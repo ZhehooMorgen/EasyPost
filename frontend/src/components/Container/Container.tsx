@@ -41,6 +41,5 @@ function RenderSingle(index: number, count: number): JSX.Element {
     return <div key={index}  className="editor">
         {viewArray}
     </div>
-
 }
 

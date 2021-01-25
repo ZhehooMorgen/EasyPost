@@ -4,7 +4,7 @@ import { IconNames, Icon } from 'office-ui-fabric-react';
 import { FuncItem, Docs } from './FuncItems';
 
 interface props {
-    UXFuncModules: FuncItem[]
+    UXFuncModules: FuncItem<any>[]
 }
 
 export default class Navigator extends Component<props> {
@@ -50,7 +50,6 @@ export default class Navigator extends Component<props> {
         })
     }
 }
-
 
 
 export const DefaultLayout = [new Docs(), new Docs(), new Docs()]

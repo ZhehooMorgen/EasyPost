@@ -1,6 +1,7 @@
 import { Icon, IconNames } from 'office-ui-fabric-react';
 import React, { Component } from 'react';
 import FileSys, { FileNode } from '../../../lib/FileSys'
+import { ITabOpener, Base } from '../../../workbench';
 import { FuncItem, LineElement } from './def';
 
 import './Docs.scss'
@@ -11,13 +12,13 @@ interface Node {
     Children: Array<Node>   //need to load children (not no children) if null, no existing children if empty
 }
 
-export default class Docs extends FuncItem {
+export default class Docs extends FuncItem<string> {
     state: {
         Node: Node
     } = {
             Node: null
         }
-    Render(component: Component,addTab:(renderer:()=>JSX.Element)=>void): JSX.Element {
+    Render(component: Component,openTab:ITabOpener<string>): JSX.Element {
         let indexer = 0
         let genUX = (node: Node, depth: number): JSX.Element[] => {
             let elements = new Array<JSX.Element>()
@@ -42,9 +43,7 @@ export default class Docs extends FuncItem {
                     onClick={node.Expand != null ? () => {
                         node.Expand = !node.Expand
                         component.setState({})
-                    } : () => addTab(()=>{
-                    return <div>{node.Ref.content}</div>
-                    })}
+                    } : () =>openTab(node.Ref.content as string,Base<string>)}
                 />
             )
             if (node.Expand === true) {
