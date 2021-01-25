@@ -8,7 +8,7 @@ export default class Container extends Component<{}, {
     render() {
         let rd = []
         for(let i=0;i<10;i++){
-            rd.push(<div style={i===this.state.index?{}:{display:"none"}} className="containerWarrper">{RenderSingle(i,i*3)}</div>)
+            rd.push(<div key={i} style={i===this.state.index?{}:{display:"none"}} className="containerWarrper">{RenderSingle(i,i*3)}</div>)
         }
         return <div id="AppContainer"
             onClick={() => {

@@ -17,7 +17,7 @@ module.exports = function (env, args) {
         ],
         devServer: {
             contentBase: './dist',
-            port: 4000,
+            port: 8023,
         },
         module: {
             rules: [
