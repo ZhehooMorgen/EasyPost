@@ -21,6 +21,6 @@ This is a blog tool, but not only a blog tool.
 3. Faas platform, you can run customized script on it, and build your own service
 
    ```
-To better manage your life, you need someone handle everything in the background. You can create, schedule or invoke tasks to us so that we can help you do the job.  
+   To better manage your life, you need someone handle everything in the background. You can create, schedule or invoke tasks to us so that we can help you do the job.  
    ```
 
